@@ -7,19 +7,31 @@ class InputComp extends React.Component {
       super(props);
       this.state = {
               value:undefined,
-              type:undefined,
+              title:undefined,
+              color:undefined,
         options:[
-        {   value:'Income:Current balance'},
-        {   value:'Income:Job/Main income'},
-        {    value:'Income:Unexpected income'},
-        {    value:'Expense:Food'},
-        {    value:'Expense:Rent'},
-        {    value:'Expense:Utility costs'},
-        {    value:'Expense:Gym membership'},
-        {    value:'Expense:Monthly subscription'},
-        {    value:'Expense:Internet bill'},
-        {    value:'Expense:TV bill'},
-        {    value:'Expense:Fuel'}
+        {   value:'Income:Current balance',
+            color:'#43bf00'},
+        {   value:'Income:Job/Main income',
+            color:'#adf736'},
+        {    value:'Income:Unexpected income',
+            color:'#2b7838'},
+        {    value:'Expense:Food',
+            color:'#E38627'},
+        {    value:'Expense:Rent',
+            color:'#C13C37'},
+        {    value:'Expense:Utility costs',
+            color:'#6A2135'},
+        {    value:'Expense:Gym membership',
+            color:'#ffd60a'},
+        {    value:'Expense:Monthly subscription',
+            color:'#fa4d4d'},
+        {    value:'Expense:Internet bill',
+            color:'#572222'},
+        {    value:'Expense:TV bill',
+            color:'#a17777'},
+        {    value:'Expense:Fuel',
+            color:'#fca9a9'}
         ]
             
     }
@@ -30,10 +42,10 @@ class InputComp extends React.Component {
 funkcija = () =>{
     let array={
         value:this.state.value,
-        type:this.state.type
+        title:this.state.title,
+        color:this.state.color
     };
     this.props.CallFunction(array);
-    console.log(array);
 }
 sendData = () => {
     this.props.parentCallback(0);
@@ -41,13 +53,14 @@ sendData = () => {
     
     handleChange(event) {
         this.setState({
-            value:event.target.value,
+            value:parseInt(event.target.value),
         });
     }
 
     setValues(event){
         this.setState({
-            type:event[0].value,
+            title:event[0].value,
+            color:event[0].color,
         });
     }
 

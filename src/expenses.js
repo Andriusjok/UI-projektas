@@ -4,21 +4,27 @@ import './App.css';
 class BalanceCount extends React.Component {
     constructor(props) {
       super(props);
-      this.state = {         
+      this.state = {
+        mounted:false,         
       }
 };
+sendData = (prop) => {
+  this.props.callb(prop);
+}
 
     render() {
         let balance=0;
         for (let i=0;i<this.props.inputai.length;i++)
         {
-            if(this.props.inputai[i].type.includes('Income'))
-            {
+            if(this.props.inputai[i].title.includes('Income'))
             balance+=parseInt(this.props.inputai[i].value);
-            console.log("Pliusas");
-            }
-            if(this.props.inputai[i].type.includes('Expense'))
+            if(this.props.inputai[i].title.includes('Expense'))
             balance-=parseInt(this.props.inputai[i].value);
+        }
+        if (this.state.mounted===false)
+        {
+          this.sendData(balance);
+          this.setState({mounted:true});
         }
       return (
         <div>

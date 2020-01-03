@@ -2,22 +2,78 @@ import React from 'react';
 import './App.css';
 import InputComp from './input';
 import BalanceCount from './expenses';
+import Graph from './Graph';
+import './main.css';
+
+import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
+import Logo from "./logo.png";
+import Login from "./login";
+import SignUp from "./signup";
+import './login.css';
+
+
+
+
+
+
+
+
 
 class MainScreen extends React.Component {
     constructor(props) {
       super(props);
       this.state = {
-        view:0,
+        view:2,
         payments:[
-        ]
+        
+        {   value:5000,
+            title:'Income:Current balance',
+            color:'#43bf00'},
+        {   
+            value:1766,
+            title:'Income:Job/Main income',
+            color:'#adf736'},
+        {   value:80,
+            title:'Income:Unexpected income',
+            color:'#2b7838'},
+        {   value:400,
+            title:'Expense:Food',
+            color:'#E38627'},
+        {   value:800,
+            title:'Expense:Rent',
+            color:'#C13C37'},
+        {   value:120,
+            title:'Expense:Utility costs',
+            color:'#6A2135'},
+        {   value:20,
+            title:'Expense:Gym membership',
+            color:'#ffd60a'},
+        {   value:6,
+            title:'Expense:Monthly subscription',
+            color:'#fa4d4d'},
+        {   value:20,
+            title:'Expense:Internet bill',
+            color:'#572222'},
+        {   value:15,
+            title:'Expense:TV bill',
+            color:'#a17777'},
+        {   value:80,
+            title:'Expense:Fuel',
+            color:'#fca9a9'}
+        ],
+        balance:0
       };
   this.setView=this.setView.bind(this);
+  this.loginTransition.bind(this);
     };
 
     callback=(props)=>{
         var newArray = this.state.payments.slice();    
     newArray.push(props);   
     this.setState({payments:newArray});
+    }
+    callb=(props)=>{
+        this.setState({balance:props});
     }
     setView=(value)=> {
         this.setState(
@@ -55,15 +111,21 @@ class MainScreen extends React.Component {
             },
         );
     }
+    SignUpTransition=()=>{
+        this.setState(
+            {
+                view:4,
+            },
+        );
+    }
     render() {
         // 0 - main screen
-        //   1 - input
+        // 1 - input
         // 2 - log in screen
-        // 3 - 
+        // 3 - statistics
+        // 4 - signup
         switch (this.state.view) {
             case 0:
-                
-            console.log(this.state.payments);
         return (
             <div>
             <div className="Sidemenu">
@@ -73,10 +135,12 @@ class MainScreen extends React.Component {
             </div >
             <div className="Center">
             <h1 className="font">Balance:</h1>
-            <BalanceCount inputai={this.state.payments}></BalanceCount>
+            <BalanceCount inputai={this.state.payments}
+            callb={this.callb}></BalanceCount>
             </div>
             </div>
         );
+
             case 1:
                 return (
           <div className="menu">
@@ -85,18 +149,71 @@ class MainScreen extends React.Component {
             ></InputComp>
             </div>      
                 );
+
                 case 2:
-                    return (
-                <div>
-                    <button className="button" onClick={this.loginTransition.bind(this)}>Log in</button>
-                </div>      
-                    );
+                    return (<div className="App">
+        
+                    <div className="container">
+                      <div onClick={this.logoutTransition.bind(this)}>
+                        <img id="logo" src={Logo} alt="" />
+                    </div>
+                      <div>
+                        <ul>
+                            <div className="nav-link" onClick={this.logoutTransition.bind(this)}>
+                              Login
+                            </div>
+                         
+                            <div className="nav-link" onClick={this.SignUpTransition.bind(this)}>
+                              Sign up
+                            </div>
+                        </ul>
+                      </div>
+                    </div>
+                 
+          
+                  <div className="auth-wrapper">
+                    <div className="auth-inner">
+                      <Login login={this.loginTransition}></Login>
+                    </div>
+                  </div>
+                </div>);
+
                     case 3:
                         return (
                     <div>
                         <button className="button" onClick={this.loginTransition.bind(this)}>Back</button>
+                        <Graph data={this.state.payments} balance={this.state.balance}></Graph>
                     </div>      
                         );
+
+
+                        case 4:
+                            return (<div className="App">
+        
+                            <div className="container">
+                              <div onClick={this.logoutTransition.bind(this)}>
+                                <img id="logo" src={Logo} alt="" />
+                            </div>
+                              <div>
+                                <ul>
+                                    <div className="nav-link" onClick={this.logoutTransition.bind(this)}>
+                                      Login
+                                    </div>
+                                 
+                                    <div className="nav-link" onClick={this.SignUpTransition.bind(this)}>
+                                      Sign up
+                                    </div>
+                                </ul>
+                              </div>
+                            </div>
+                         
+                  
+                          <div className="auth-wrapper">
+                            <div className="auth-inner">
+                              <SignUp signup={this.logoutTransition}></SignUp>
+                            </div>
+                          </div>
+                        </div>);
     }
   };
 }
