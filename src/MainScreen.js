@@ -1,23 +1,13 @@
 import React from 'react';
-import './App.css';
 import InputComp from './input';
 import BalanceCount from './expenses';
 import Graph from './Graph';
 import './main.css';
-
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import Logo from "./logo.png";
 import Login from "./login";
 import SignUp from "./signup";
 import './login.css';
-
-
-
-
-
-
-
-
 
 class MainScreen extends React.Component {
     constructor(props) {
@@ -32,7 +22,7 @@ class MainScreen extends React.Component {
         {   
             value:1766,
             title:'Income:Job/Main income',
-            color:'#adf736'},
+            color:'#0b3817'},
         {   value:80,
             title:'Income:Unexpected income',
             color:'#2b7838'},
@@ -144,76 +134,53 @@ class MainScreen extends React.Component {
             case 1:
                 return (
           <div className="menu">
-            <InputComp parentCallback ={this.setView}
+            <InputComp parentCallback={this.setView}
                         CallFunction={this.callback}
             ></InputComp>
             </div>      
                 );
 
                 case 2:
-                    return (<div className="App">
-        
-                    <div className="container">
-                      <div onClick={this.logoutTransition.bind(this)}>
-                        <img id="logo" src={Logo} alt="" />
-                    </div>
-                      <div>
-                        <ul>
-                            <div className="nav-link" onClick={this.logoutTransition.bind(this)}>
-                              Login
-                            </div>
-                         
-                            <div className="nav-link" onClick={this.SignUpTransition.bind(this)}>
-                              Sign up
-                            </div>
-                        </ul>
-                      </div>
-                    </div>
-                 
-          
-                  <div className="auth-wrapper">
-                    <div className="auth-inner">
-                      <Login login={this.loginTransition}></Login>
-                    </div>
-                  </div>
-                </div>);
+        return (
+          <div className="App">
+            <div className="auth-wrapper">
+              <div onClick={this.logoutTransition.bind(this)}>
+                <img id="logo" src={Logo} alt="" />
+              </div>
+              <div className="auth-inner">
+                <Login login={this.loginTransition}></Login>
+                <div id="signup" onClick={this.SignUpTransition.bind(this)}>
+                  <h6>Sign Up</h6>
+                </div>
+              </div>
+            </div>
+          </div>
+        );
 
                     case 3:
                         return (
                     <div>
-                        <button className="button" onClick={this.loginTransition.bind(this)}>Back</button>
-                        <Graph data={this.state.payments} balance={this.state.balance}></Graph>
+                        <Graph data={this.state.payments} balance={this.state.balance}
+                        login={this.loginTransition.bind(this)}
+                        ></Graph>
+                        
                     </div>      
                         );
 
 
                         case 4:
-                            return (<div className="App">
-        
-                            <div className="container">
-                              <div onClick={this.logoutTransition.bind(this)}>
-                                <img id="logo" src={Logo} alt="" />
-                            </div>
-                              <div>
-                                <ul>
-                                    <div className="nav-link" onClick={this.logoutTransition.bind(this)}>
-                                      Login
-                                    </div>
-                                 
-                                    <div className="nav-link" onClick={this.SignUpTransition.bind(this)}>
-                                      Sign up
-                                    </div>
-                                </ul>
+                            return (
+                              <div className="App">
+                                <div className="auth-wrapper">
+                                  <div onClick={this.logoutTransition.bind(this)}>
+                                    <img id="logo" src={Logo} alt="" />
+                                  </div>
+                                  <div className="auth-inner">
+                                    <SignUp signup={this.logoutTransition}></SignUp>
+                                  </div>
+                                </div>
                               </div>
-                            </div>
-                         
-                  
-                          <div className="auth-wrapper">
-                            <div className="auth-inner">
-                              <SignUp signup={this.logoutTransition}></SignUp>
-                            </div>
-                          </div>
-                        </div>);
+                            );
     }
   };
 }

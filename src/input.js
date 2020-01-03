@@ -1,5 +1,4 @@
 import React from 'react';
-import './App.css';
 import Select from "react-dropdown-select";
 
 class InputComp extends React.Component {
@@ -13,7 +12,7 @@ class InputComp extends React.Component {
         {   value:'Income:Current balance',
             color:'#43bf00'},
         {   value:'Income:Job/Main income',
-            color:'#adf736'},
+            color:'#0b3817'},
         {    value:'Income:Unexpected income',
             color:'#2b7838'},
         {    value:'Expense:Food',

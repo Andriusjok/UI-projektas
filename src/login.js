@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import MainScreen from "./MainScreen";
 
 export default class Login extends Component {
     constructor(props) {

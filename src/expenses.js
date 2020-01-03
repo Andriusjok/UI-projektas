@@ -1,5 +1,4 @@
 import React from 'react';
-import './App.css';
 
 class BalanceCount extends React.Component {
     constructor(props) {
@@ -13,15 +12,16 @@ sendData = (prop) => {
 }
 
     render() {
-        let balance=0;
-        for (let i=0;i<this.props.inputai.length;i++)
+        
+      let balance=0; 
+      for (let i=0;i<this.props.inputai.length;i++)
         {
             if(this.props.inputai[i].title.includes('Income'))
             balance+=parseInt(this.props.inputai[i].value);
             if(this.props.inputai[i].title.includes('Expense'))
             balance-=parseInt(this.props.inputai[i].value);
         }
-        if (this.state.mounted===false)
+      if (this.state.mounted===false)
         {
           this.sendData(balance);
           this.setState({mounted:true});
