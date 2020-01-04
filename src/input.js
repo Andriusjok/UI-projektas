@@ -1,13 +1,19 @@
 import React from 'react';
 import Select from "react-dropdown-select";
+import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
+
 
 class InputComp extends React.Component {
     constructor(props) {
       super(props);
       this.state = {
-              value:undefined,
-              title:undefined,
+              value:0,
+              title:'',
               color:undefined,
+              name:'',
+              date: new Date(),
+
         options:[
         {   value:'Income:Current balance',
             color:'#43bf00'},
@@ -36,13 +42,17 @@ class InputComp extends React.Component {
     }
     this.handleChange = this.handleChange.bind(this);  
     this.sendData=this.sendData.bind(this);
-    this.handleChange=this.handleChange.bind(this)
+    this.handleChange1=this.handleChange1.bind(this);
+    this.handleChangeDate=this.handleChangeDate.bind(this);
+    
 };
 funkcija = () =>{
     let array={
         value:this.state.value,
         title:this.state.title,
-        color:this.state.color
+        color:this.state.color,
+        name:this.state.name,
+        date:this.state.date
     };
     this.props.CallFunction(array);
 }
@@ -56,6 +66,21 @@ sendData = () => {
         });
     }
 
+    handleChangeDate(event) {
+        this.setState({
+            date:event,
+        });
+    }
+
+
+
+    handleChange1(event) {
+        this.setState({
+            name:event.target.value,
+        });
+    }
+
+
     setValues(event){
         this.setState({
             title:event[0].value,
@@ -67,6 +92,17 @@ sendData = () => {
       return (
         <div>
         <div>
+        <label className="font">
+        Source of income/expense:
+        </label>
+        <input type="text" className={"inputBox"} input={this.state.name} onChange={this.handleChange1}  name="amount" />
+        <br></br>
+        <label className="font">
+        Date:
+        </label>
+        <br></br>
+        <DatePicker selected={this.state.date} onChange={this.handleChangeDate} showMonthDropdown dateFormat="yyyy/MM/dd" />
+        <br></br>
         <label className="font">
         Amount:
         </label>

@@ -1,18 +1,18 @@
 import React, { Component } from "react";
 
 export default class Login extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {    
-        view:0,  
-        }
-  };
-
-  handleclick=()=>{
-      this.props.login();
+  constructor(props) {
+    super(props);
+    this.state = {
+      view: 0
+    };
   }
-    render() {
-        return(
+
+  handleclick = () => {
+    this.props.login();
+  };
+  render() {
+    return (
       <form>
         <h3>Sign In</h3>
 
@@ -47,7 +47,11 @@ export default class Login extends Component {
           </div>
         </div>
 
-        <button type="submit" className="btn btn-primary btn-block" onClick={this.handleclick.bind(this)}>
+        <button
+          type="submit"
+          className="btn btn-primary btn-block"
+          onClick={this.handleclick.bind(this)}
+        >
           Submit
         </button>
         <p className="forgot-password text-right">

@@ -9,6 +9,7 @@ class Graph extends React.Component{
             view:0,
             textcolor:'black',
             texttitle:'',
+            textname:'',  
             textvalue:0,
             textpercentage:0,
             data1:undefined,
@@ -34,7 +35,7 @@ this.handleClick.bind(this);
     {
         sum2+=data[i].value;
     }
-
+    this.setState({textname:data[dataIndex].name});
     }
     if (data[dataIndex].title.includes('Income'))
     {
@@ -71,8 +72,7 @@ this.handleClick.bind(this);
       margin: "1em 0 0.5em 0",
 	    color: this.state.textcolor,
 	    'fontWeight': 'normal',
-	    'fontSize': '30px',
-	    'lineHeight': '40px',
+	    'fontSize': '2em',
 	    'fontFamily': "Orienta,sans-serif"
     }
     
@@ -135,6 +135,7 @@ this.handleClick.bind(this);
 />
  </div> 
 <div className="infot">
+<h3 style={styleas}>{this.state.textname}</h3>
 <h3 style={styleas}>{this.state.texttitle}</h3>
 <h3 style={styleas}>€{this.state.textvalue} </h3>
 <h3 style={styleas}>{this.state.textpercentage}%</h3>
@@ -183,6 +184,7 @@ case 1:
 />
  </div> 
 <div className="infot">
+<h3 style={styleas}>{this.state.textname}</h3>
 <h3 style={styleas}>{this.state.texttitle}</h3>
 <h3 style={styleas}>€{this.state.textvalue} </h3>
 <h3 style={styleas}>{this.state.textpercentage}%</h3>
