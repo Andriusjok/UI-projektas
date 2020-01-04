@@ -11,9 +11,11 @@ import './login.css';
 import DatePicker from "react-datepicker";
 import History from './history';
 import "react-datepicker/dist/react-datepicker.css";
-import './calendar.css';
-import Calendar from './calendarevents';
-
+import FullCalendar from '@fullcalendar/react';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import './main.scss';
+import "./input.css";
+import interactionPlugin from "@fullcalendar/interaction"; // needed for dayClick
 class MainScreen extends React.Component {
     constructor(props) {
       super(props);
@@ -22,7 +24,7 @@ class MainScreen extends React.Component {
         payments:[
         
         {   value:5000,
-            title:'Income:Current balance',
+            title:'Income:Savings',
             color:'#43bf00',
             name:'Swedbank account',
             date: new Date(2020,0,3)},
@@ -82,9 +84,20 @@ class MainScreen extends React.Component {
         balance:0,
         startDate: new Date(),
         endDate: new Date(),
+        infoopacity:0,
+        opacity:0,
+        selectedDay:undefined,
+        eventName:'',
+        eventDescription:'',
+        selectedEvent:0,    
+        events:[
+            { title: 'event 1', date: '2020-01-04', description:'description' },
+            { title: 'event 2', date: '2020-01-15', description:'desscription11' }
+          ],
       };
   this.setView=this.setView.bind(this);
-  this.loginTransition.bind(this);
+  this.loginTransition=this.loginTransition.bind(this);
+  this.eventPush=this.eventPush.bind(this);
     };
 
     callback=(props)=>{
@@ -141,8 +154,76 @@ class MainScreen extends React.Component {
             },
         );
     }
+    handleDateClick = (arg) => { // bind with an arrow function
+        this.setState({opacity:100,
+        selectedDay:arg})
+      }
+    handleChange=(prop)=>{
+        this.setState({
+            eventName:prop.target.value
+        })
+    }
+    handleChange1=(prop)=>{
+        this.setState({
+            eventDescription:prop.target.value
+        })
+    }
+    eventPush=()=>{
+        let eventai=[...this.state.events];
+        let newArray={
+            title:this.state.eventName,
+            date:this.state.selectedDay.dateStr,
+            description:this.state.eventDescription
+        }
+        eventai.push(newArray);
+        this.setState({events:eventai});
+    }
+    handleeventClick=(arg)=>{
+
+        for(let i=0;i<this.state.events.length;i++)
+        {
+            if(this.state.events[i].title==arg.event.title)
+            {
+                this.setState({selectedEvent:i});
+            }
+        }
+        this.setState({infoopacity:100});
+    }
     render() {
-        
+       
+        const style = {
+            position: "relative",
+            margin: "50px auto"
+          }
+        const boxstyle={
+                width: "30em",
+                height: "20em",
+                marginTop: '5%',
+                marginRight: "5%",
+                background: "#ffffff",
+                boxShadow: "0px 14px 80px rgba(34, 35, 58, 0.2)",
+                padding: "40px 55px 45px 55px",
+                borderRadius: "15px",
+                transition: "all 0.3s",
+                opacity: this.state.opacity
+        }
+        const boxstyle1={
+            width: "30em",
+            height: "20em",
+            marginTop: '5%',
+            marginRight: "5%",
+            background: "#ffffff",
+            boxShadow: "0px 14px 80px rgba(34, 35, 58, 0.2)",
+            padding: "40px 55px 45px 55px",
+            borderRadius: "15px",
+            transition: "all 0.3s",
+            opacity: this.state.infoopacity
+    }
+        const fontstyle={
+                fontSize:"1em",
+                marginTop:"5%",
+
+        }
         // 0 - main screen
         // 1 - input
         // 2 - log in screen
@@ -155,6 +236,12 @@ class MainScreen extends React.Component {
             <div id="wrapDiv">
             <div className="Sidemenu">
               <img id="logoMainScreen" src={Logo} alt="" />
+              <button
+                className="menubutton"
+                onClick={this.loginTransition.bind(this)}
+              >
+                Records
+              </button>
               <button
                 className="menubutton"
                 onClick={this.inputTransition.bind(this)}
@@ -173,47 +260,95 @@ class MainScreen extends React.Component {
               >
                 Log Out
               </button>
-              <DatePicker
-            selected={this.state.startDate}
-            onChange={date => this.setState({startDate:date})}
-            selectsStart
-            startDate={this.state.startDate}
-            endDate={this.state.endDate}
-            dateFormat="yyyy/MM/dd"
-            />
-            <DatePicker
-            selected={this.state.endDate}
-            onChange={date => this.setState({endDate:date})}
-            selectsEnd
-            startDate={this.state.startDate}
-            endDate={this.state.endDate}
-            minDate={this.state.startDate}
-            dateFormat="yyyy/MM/dd"
-            />
+
               <h1 id="balance">BALANCE:</h1>
               <BalanceCount
                 inputai={this.state.payments}
                 callb={this.callb}
               ></BalanceCount>
             </div>
-            <History startDate={this.state.startDate} 
-            endDate={this.state.endDate}
-             payments={this.state.payments}/>
+            <div id="historyDiv">
+              <div id="datePickerDiv">
+                {" "}
+                <DatePicker
+                  id="datepicker1"
+                  selected={this.state.startDate}
+                  onChange={date => this.setState({ startDate: date })}
+                  selectsStart
+                  startDate={this.state.startDate}
+                  endDate={this.state.endDate}
+                  dateFormat="yyyy/MM/dd"
+                />
+                <DatePicker
+                  id="datepicker2"
+                  selected={this.state.endDate}
+                  onChange={date => this.setState({ endDate: date })}
+                  selectsEnd
+                  startDate={this.state.startDate}
+                  endDate={this.state.endDate}
+                  minDate={this.state.startDate}
+                  dateFormat="yyyy/MM/dd"
+                />
+              </div>
+
+              <div id="historyShowDiv">
+                {" "}
+                <History
+                  startDate={this.state.startDate}
+                  endDate={this.state.endDate}
+                  payments={this.state.payments}
+                />
+              </div>
+            </div>
           </div>
         );
 
             case 1:
                 return (
-          <div className="menu">
-            <InputComp parentCallback={this.setView}
+                    <div id="wrapDiv">
+                    <div className="Sidemenu">
+                      <img id="logoMainScreen" src={Logo} alt="" />
+                      <button
+                        className="menubutton"
+                        onClick={this.loginTransition.bind(this)}
+                      >
+                        Records
+                      </button>
+                      <button
+                        className="menubutton"
+                        onClick={this.inputTransition.bind(this)}
+                      >
+                        Input
+                      </button>
+                      <button
+                        className="menubutton"
+                        onClick={this.statisticsTransition.bind(this)}
+                      >
+                        Statistics
+                      </button>
+                      <button
+                        className="menubutton"
+                        onClick={this.logoutTransition.bind(this)}
+                      >
+                        Log Out
+                      </button>
+                      <h1 id="balance">BALANCE:</h1>
+                      <BalanceCount
+                        inputai={this.state.payments}
+                        callb={this.callb}
+                      ></BalanceCount>
+                    </div>
+                    <div id="inputDiv">
+                      <InputComp
+                        parentCallback={this.setView}
                         CallFunction={this.callback}
-            ></InputComp>
-            </div>      
-                );
+                      ></InputComp>
+                    </div>
+                  </div>);
 
                 case 2:
         return (
-          <div className="App">
+            <div className="App">
             <div className="auth-wrapper">
               <div onClick={this.logoutTransition.bind(this)}>
                 <img id="logo" src={Logo} alt="" />
@@ -230,31 +365,87 @@ class MainScreen extends React.Component {
 
                     case 3:
                         return (
-                    <div>
-                        <Graph data={this.state.payments} balance={this.state.balance}
-                        login={this.loginTransition.bind(this)}
-                        ></Graph>
-                        
-                    </div>      
-                        );
+                            <div id="wrapDiv">
+                              <div className="Sidemenu">
+                                <img id="logoMainScreen" src={Logo} alt="" />
+                                <button
+                                  className="menubutton"
+                                  onClick={this.loginTransition.bind(this)}
+                                >
+                                  Records
+                                </button>
+                                <button
+                                  className="menubutton"
+                                  onClick={this.inputTransition.bind(this)}
+                                >
+                                  Input
+                                </button>
+                                <button
+                                  className="menubutton"
+                                  onClick={this.statisticsTransition.bind(this)}
+                                >
+                                  Statistics
+                                </button>
+                                <button
+                                  className="menubutton"
+                                  onClick={this.logoutTransition.bind(this)}
+                                >
+                                  Log Out
+                                </button>
+                  
+                                <h1 id="balance">BALANCE:</h1>
+                                <BalanceCount
+                                  inputai={this.state.payments}
+                                  callb={this.callb}
+                                ></BalanceCount>
+                              </div>
+                              <div id="incomeDiv">
+                                <Graph
+                                  data={this.state.payments}
+                                  balance={this.state.balance}
+                                  login={this.loginTransition.bind(this)}
+                                ></Graph>
+                              </div>
+                            </div>);
 
 
                         case 4:
                             return (
-                              <div className="App">
-                                <div className="auth-wrapper">
-                                  <div onClick={this.logoutTransition.bind(this)}>
-                                    <img id="logo" src={Logo} alt="" />
-                                  </div>
-                                  <div className="auth-inner">
-                                    <SignUp signup={this.logoutTransition}></SignUp>
+                                <div className="App">
+                                  <div className="auth-wrapper">
+                                    <div onClick={this.logoutTransition.bind(this)}>
+                                      <img id="logo" src={Logo} alt="" />
+                                    </div>
+                                    <div className="auth-inner">
+                                      <SignUp signup={this.logoutTransition}></SignUp>
+                                    </div>
                                   </div>
                                 </div>
-                              </div>
                             );
                                 case 5:
                                     return(
-                                        <Calendar/>
+                                        <div className="wrapperis">
+                                            <div className="calendar">
+                                            <FullCalendar dateClick={this.handleDateClick} eventClick={this.handleeventClick}  events={this.state.events} plugins={[ dayGridPlugin, interactionPlugin ]} />
+                                            </div>
+                                            <div style={boxstyle}>
+                                                <h1 className="font">NEW EVENT</h1>
+                                                <h1 style={fontstyle}>Input the name of event:</h1>
+                                                <input type="text" input={this.state.eventName} onChange={this.handleChange}></input>
+                                                <br></br>
+                                                <h1 style={fontstyle}>Describe the event:</h1>
+                                                <textarea onChange={this.handleChange1}></textarea>
+                                                <button className="button" input={this.state.eventDescription} onClick={this.eventPush}>Submit</button>
+                                            </div>
+                                            <div style={boxstyle1}>
+                                            <h1 className="font">EVENT INFO</h1>
+                                    <h3 style={fontstyle}>{this.state.events[this.state.selectedEvent].title}</h3>
+                                    
+                                    <h3 style={fontstyle}>{this.state.events[this.state.selectedEvent].date}</h3>
+                                    
+                                    <h3 style={fontstyle}>{this.state.events[this.state.selectedEvent].description}</h3>
+                                            </div>
+                                        </div>
                                     );
     }
   };
