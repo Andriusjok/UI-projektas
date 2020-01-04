@@ -82,8 +82,8 @@ class MainScreen extends React.Component {
             date:new Date(2020,0,3)}
         ],
         balance:0,
-        startDate: new Date(),
-        endDate: new Date(),
+        startDate: new Date(2020,0,1),
+        endDate: new Date(2020,1,1),
         infoopacity:0,
         opacity:0,
         selectedDay:undefined,
@@ -189,6 +189,11 @@ class MainScreen extends React.Component {
         }
         this.setState({infoopacity:100});
     }
+    calendarTransition = () => {
+        this.setState({
+          view: 5
+        });
+      };
     render() {
        
         const style = {
@@ -196,8 +201,8 @@ class MainScreen extends React.Component {
             margin: "50px auto"
           }
         const boxstyle={
-                width: "30em",
-                height: "20em",
+                width: "100%",
+                height: "40%",
                 marginTop: '5%',
                 marginRight: "5%",
                 background: "#ffffff",
@@ -208,8 +213,8 @@ class MainScreen extends React.Component {
                 opacity: this.state.opacity
         }
         const boxstyle1={
-            width: "30em",
-            height: "20em",
+            width: "100%",
+            height: "40%",
             marginTop: '5%',
             marginRight: "5%",
             background: "#ffffff",
@@ -254,6 +259,12 @@ class MainScreen extends React.Component {
               >
                 Statistics
               </button>
+                <button
+                className="menubutton"
+                onClick={this.calendarTransition.bind(this)}
+            >
+                CALENDAR
+            </button>
               <button
                 className="menubutton"
                 onClick={this.logoutTransition.bind(this)}
@@ -327,6 +338,12 @@ class MainScreen extends React.Component {
                         Statistics
                       </button>
                       <button
+                                              className="menubutton"
+                                              onClick={this.calendarTransition.bind(this)}
+                                            >
+                                              CALENDAR
+                                            </button>
+                      <button
                         className="menubutton"
                         onClick={this.logoutTransition.bind(this)}
                       >
@@ -387,6 +404,12 @@ class MainScreen extends React.Component {
                                   Statistics
                                 </button>
                                 <button
+                                              className="menubutton"
+                                              onClick={this.calendarTransition.bind(this)}
+                                            >
+                                              CALENDAR
+                                            </button>
+                                <button
                                   className="menubutton"
                                   onClick={this.logoutTransition.bind(this)}
                                 >
@@ -423,30 +446,95 @@ class MainScreen extends React.Component {
                                 </div>
                             );
                                 case 5:
-                                    return(
-                                        <div className="wrapperis">
+                                    return (
+                                        <div className="wrapDiv">
+                                        <div className="menuside">
+                                        <img id="logoMainScreen" src={Logo} alt="" />
+                                        <button
+                                          className="menubutton"
+                                          onClick={this.loginTransition.bind(this)}
+                                        >
+                                          Records
+                                        </button>
+                                        <button
+                                          className="menubutton"
+                                          onClick={this.inputTransition.bind(this)}
+                                        >
+                                          Input
+                                        </button>
+                                        <button
+                                          className="menubutton"
+                                          onClick={this.statisticsTransition.bind(this)}
+                                        >
+                                          Statistics
+                                        </button>
+                                          <button
+                                          className="menubutton"
+                                          onClick={this.calendarTransition.bind(this)}
+                                      >
+                                          CALENDAR
+                                      </button>
+                                        <button
+                                          className="menubutton"
+                                          onClick={this.logoutTransition.bind(this)}
+                                        >
+                                          Log Out
+                                        </button>
+                          
+                                        <h1 id="balance">BALANCE:</h1>
+                                        <BalanceCount
+                                          inputai={this.state.payments}
+                                          callb={this.callb}
+                                        ></BalanceCount>
+                                      </div>
+                                          <div className="wrapperis">
                                             <div className="calendar">
-                                            <FullCalendar dateClick={this.handleDateClick} eventClick={this.handleeventClick}  events={this.state.events} plugins={[ dayGridPlugin, interactionPlugin ]} />
+                                              <FullCalendar
+                                                height='auto'
+                                                dateClick={this.handleDateClick}
+                                                eventClick={this.handleeventClick}
+                                                events={this.state.events}
+                                                plugins={[dayGridPlugin, interactionPlugin]}
+                                              />
                                             </div>
+                                            <div className="boxes">
                                             <div style={boxstyle}>
-                                                <h1 className="font">NEW EVENT</h1>
-                                                <h1 style={fontstyle}>Input the name of event:</h1>
-                                                <input type="text" input={this.state.eventName} onChange={this.handleChange}></input>
-                                                <br></br>
-                                                <h1 style={fontstyle}>Describe the event:</h1>
-                                                <textarea onChange={this.handleChange1}></textarea>
-                                                <button className="button" input={this.state.eventDescription} onClick={this.eventPush}>Submit</button>
+                                              <h1 className="font">NEW EVENT</h1>
+                                              <h1 style={fontstyle}>Input the name of event:</h1>
+                                              <input
+                                                type="text"
+                                                input={this.state.eventName}
+                                                onChange={this.handleChange}
+                                              ></input>
+                                              <br></br>
+                                              <h1 style={fontstyle}>Describe the event:</h1>
+                                              <textarea onChange={this.handleChange1}></textarea>
+                                              <button
+                                                className="button"
+                                                input={this.state.eventDescription}
+                                                onClick={this.eventPush}
+                                              >
+                                                Submit
+                                              </button>
                                             </div>
                                             <div style={boxstyle1}>
-                                            <h1 className="font">EVENT INFO</h1>
-                                    <h3 style={fontstyle}>{this.state.events[this.state.selectedEvent].title}</h3>
-                                    
-                                    <h3 style={fontstyle}>{this.state.events[this.state.selectedEvent].date}</h3>
-                                    
-                                    <h3 style={fontstyle}>{this.state.events[this.state.selectedEvent].description}</h3>
+                                              <h1 className="font">EVENT INFO</h1>
+                                              <h3 style={fontstyle}>
+                                                {this.state.events[this.state.selectedEvent].title}
+                                              </h3>
+                              
+                                              <h3 style={fontstyle}>
+                                                {this.state.events[this.state.selectedEvent].date}
+                                              </h3>
+                              
+                                              <h3 style={fontstyle}>
+                                                {this.state.events[this.state.selectedEvent].description}
+                                              </h3>
                                             </div>
-                                        </div>
-                                    );
+                                            </div>
+                                          </div>
+                                          </div>
+                                      );
     }
   };
 }

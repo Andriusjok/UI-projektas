@@ -16,12 +16,9 @@ class History extends React.Component {
         this.props.payments[i].date > this.props.startDate &&
         this.props.payments[i].date < this.props.endDate
       ) {
-        console.log(1);
         historyArray.push(this.props.payments[i]);
       }
-    }
-    console.log(historyArray);
-    return (
+    } return (
       <div>
         {historyArray.map((record, i) => {
           return (

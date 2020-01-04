@@ -13,7 +13,9 @@ class Graph extends React.Component {
       textvalue: 0,
       textpercentage: 0,
       data1: undefined,
-      data2: undefined
+      data2: undefined,
+      opacity:0,
+      cursor:'auto',
     };
     this.handleClick.bind(this);
   }
@@ -51,6 +53,8 @@ class Graph extends React.Component {
       texttitle: title,
       textvalue: data[dataIndex].value
     });
+    
+    this.setState({opacity:100});
   };
   handleClick2 = () => {
     this.setState({ view: 1 });
@@ -59,7 +63,12 @@ class Graph extends React.Component {
   handleClick1 = () => {
     this.setState({ view: 0 });
   };
-
+  handleMouseOver = () =>{
+    this.setState({cursor:'pointer'});
+  }
+  handleMouseOut = () =>{
+    this.setState({cursor:'auto'});
+  }
   render() {
     const styleas = {
       margin: "1em 0 0.5em 0",
@@ -80,16 +89,15 @@ class Graph extends React.Component {
         dataarr1.push(this.props.data[i]);
       }
     }
-    console.log(dataarr1);
 
     switch (this.state.view) {
       case 0:
         return (
-          <div>
+          <div style={{width:'100%'}}>
             <h3 className="header">INCOME STATISTICS</h3>
             <div className="statistics">
               <div className="info">
-                <ReactMinimalPieChart
+                <ReactMinimalPieChart style={{cursor:this.state.cursor}}
                   animate={true}
                   animationDuration={500}
                   animationEasing="ease-out"
@@ -105,28 +113,29 @@ class Graph extends React.Component {
                   lengthAngle={360}
                   lineWidth={20}
                   onClick={this.handleClick}
-                  onMouseOut={undefined}
-                  onMouseOver={undefined}
+                  onMouseOut={this.handleMouseOut}
+                  onMouseOver={this.handleMouseOver}
                   paddingAngle={18}
                   radius={50}
                   rounded
                   startAngle={0}
                   viewBoxSize={[100, 100]}
                 />
-              </div>
-              <div className="infot">
-                <h3 style={styleas}>{this.state.textname}</h3>
-                <h3 style={styleas}>{this.state.texttitle}</h3>
-                <h3 style={styleas}>€{this.state.textvalue} </h3>
-                <h3 style={styleas}>{this.state.textpercentage}%</h3>
-              </div>
-              <button
+                 <button
                 id="expensesButton"
                 className="button"
                 onClick={this.handleClick2}
               >
                 Expenses
               </button>
+              </div>
+              <div className="infot" style={{opacity:this.state.opacity}}>
+                <h3 style={styleas}>{this.state.textname}</h3>
+                <h3 style={styleas}>{this.state.texttitle}</h3>
+                <h3 style={styleas}>€{this.state.textvalue} </h3>
+                <h3 style={styleas}>{this.state.textpercentage}%</h3>
+              </div>
+              
             </div>
           </div>
         );
@@ -136,7 +145,7 @@ class Graph extends React.Component {
             <h3 className="header">EXPENSES STATISTICS</h3>
             <div className="statistics">
               <div className="info">
-                <ReactMinimalPieChart
+              <ReactMinimalPieChart style={{cursor:this.state.cursor}}
                   animate={true}
                   animationDuration={500}
                   animationEasing="ease-out"
@@ -152,8 +161,8 @@ class Graph extends React.Component {
                   lengthAngle={360}
                   lineWidth={20}
                   onClick={this.handleClick}
-                  onMouseOut={undefined}
-                  onMouseOver={undefined}
+                  onMouseOut={this.handleMouseOut}
+                  onMouseOver={this.handleMouseOver}
                   paddingAngle={18}
                   radius={50}
                   rounded
@@ -161,7 +170,8 @@ class Graph extends React.Component {
                   viewBoxSize={[100, 100]}
                 />
               </div>
-              <div className="infot">
+ 
+                <div className="infot" style={{opacity:this.state.opacity}}>
                 <h3 style={styleas}>{this.state.textname}</h3>
                 <h3 style={styleas}>{this.state.texttitle}</h3>
                 <h3 style={styleas}>€{this.state.textvalue} </h3>

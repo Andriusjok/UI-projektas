@@ -132,17 +132,14 @@ button:active {
 }
 
 .statistics {
-  display: inline-flex;
-  justify-content: center;
-  text-align: left;
-  padding-left: 5%;
-  padding-right: 4%;
-  flex-direction: column;
+  display: flex;
+  flex-direction: row;
+  width:100%;
 }
 .info {
-  width: 25em;
-  height: 25em;
+  width:40%;
   margin-top: 5%;
+  margin-left: 5%;
   margin-right: 3%;
   background: #ffffff;
   box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.2);
@@ -167,10 +164,10 @@ button:active {
   color: #007bff;
 }
 .infot {
-  height: 20em;
-  height: 20em;
+  width:30%;
+  height:40%;
   margin-top: 5%;
-  margin-right: 15%;
+  margin-right: 10%;
   background: #ffffff;
   box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.2);
   border-radius: 15px;
@@ -230,8 +227,7 @@ button:active {
 }
 
 #incomeDiv {
-  position: relative;
-  left: 27%;
+  width:80%;
 }
 
 #expensesButton {
@@ -244,18 +240,41 @@ button:active {
 }
 
 .calendar {
-  width: 45em;
-  margin-top: 5%;
-  margin-right: 5%;
-  margin-left:10%;
+ 
+  margin-top:3%;
+  width: 50%;
+  height:100%;
+  margin-left:5%;
   background: #ffffff;
   box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.2);
   padding: 40px 55px 45px 55px;
   border-radius: 15px;
   transition: all 0.3s;
+  margin-right:5%;
 }
 
 .wrapperis{
+  width:80%;
+  display:inline-flex;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  /* bring your own prefixes */
+  transform: translate(-40%, -50%);
+}
+.boxes{
+  
+  width:40%;
+  height:100%;
   display:flex;
-  width:100%;
+  flex-direction: column;
+}
+
+.menuside{
+  width: 15%;
+  height: 100%;
+  background-color: whitesmoke;
+  text-align: center;
+  position: sticky;
+  bottom:0;
 }
